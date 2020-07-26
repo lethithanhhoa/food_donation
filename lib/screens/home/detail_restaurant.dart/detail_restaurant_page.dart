@@ -15,12 +15,17 @@ class DetailRestaurantPage extends StatefulWidget {
 class _DetailRestaurantPageState extends State<DetailRestaurantPage> {
   List<int> items;
   int totalItems;
+  List<int> quantity;
 
   @override
   void initState() {
     super.initState();
     items = List.filled(20, 0);
     totalItems = 0;
+    quantity = [
+      foodList[0].quantity,
+      foodList[1].quantity,
+    ];
   }
 
   @override
@@ -108,7 +113,162 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage> {
               height: 80,
               child: Center(
                   child: RaisedButton(
-                onPressed: null,
+                onPressed: () {
+                  print('..................');
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          contentPadding: EdgeInsets.all(10),
+                          titlePadding: EdgeInsets.all(10),
+                          title: Text(
+                            'Đăng ký nhận đồ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          actions: <Widget>[
+                            RaisedButton(
+                              child: Text('Hủy bỏ'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            RaisedButton(
+                              child: Text('Xác nhận'),
+                              color: Colors.green,
+                              onPressed: () {
+                                setState(() {
+                                  quantity[0] -= items[0];
+                                  quantity[1] -= items[1];
+                                });
+                                foodList[0].quantity -= items[0];
+                                foodList[1].quantity -= items[1];
+                                setState(() {
+                                  items[0] = 0;
+                                  items[1] = 0;
+                                  totalItems = 0;
+                                });
+                                Navigator.pop(context);
+                              },
+                            )
+                          ],
+                          content: ListView(
+                            padding: EdgeInsets.all(0),
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Tình nguyện viên: ',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    'Nguyễn An',
+                                    style: TextStyle(fontSize: 14),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text('Nhà hàng: ',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600)),
+                                  Text(widget.restaurant.name,
+                                      style: TextStyle(fontSize: 14))
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Thời gian nhận đồ: ',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  DropdownButton<String>(
+                                    items: <String>[
+                                      '1 tiếng',
+                                      '2 tiếng',
+                                      '3 tiếng'
+                                    ].map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    onChanged: (selectedItem) {},
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'Danh sách đồ ăn:',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w600),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              (items[0] > 0)
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          'Bánh mỳ Pate kẹp: ',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        Text(
+                                          '${items[0]}',
+                                          style: TextStyle(fontSize: 14),
+                                        )
+                                      ],
+                                    )
+                                  : Container(),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              (items[1] > 0)
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          'Cơm suất: ',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        Text(
+                                          '${items[1]}',
+                                          style: TextStyle(fontSize: 14),
+                                        )
+                                      ],
+                                    )
+                                  : Container(),
+                            ],
+                          ),
+                        );
+                      });
+                },
                 child: Text('Nhận đồ (' + totalItems.toString() + ')'),
               )))
         ],
@@ -158,7 +318,7 @@ class _DetailRestaurantPageState extends State<DetailRestaurantPage> {
                     ],
                   ),
                   Text(
-                    'Số lượng: ' + food.quantity.toString(),
+                    'Số lượng: ' + quantity[index].toString(),
                     style: TextStyle(
                       fontSize: 12,
                     ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:she_codes_hackathon/router/route_name.dart';
 import 'package:she_codes_hackathon/router/router.dart';
-import 'screens/home/root_page.dart';
 import 'screens/start_app/splash_page.dart';
 
 void main() => runApp(MyApp());

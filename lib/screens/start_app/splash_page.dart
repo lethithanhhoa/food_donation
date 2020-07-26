@@ -41,9 +41,10 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(Duration(seconds: 13), () {
       Navigator.popAndPushNamed(context, RouteName.loginPage);
     });
+    // if (restaurantList != null) Navigator.popAndPushNamed(context, RouteName.loginPage);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -54,7 +55,7 @@ class _SplashPageState extends State<SplashPage> {
           children: <Widget>[
             Image.asset('assets/images/logo.jpg'),
             AutoSizeText(
-              'Food Donation',
+              'Fogo',
               style: TextStyle(
                   color: Colors.teal,
                   fontWeight: FontWeight.bold,
@@ -65,7 +66,7 @@ class _SplashPageState extends State<SplashPage> {
             ),
             //Need change another font
             AutoSizeText(
-              'Lan tỏa yêu thương đến cộng đồng',
+              'Food for all, Good for all',
               style: TextStyle(
                 color: Colors.teal,
                 fontFamily: 'Dancing Script',

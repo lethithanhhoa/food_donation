@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                         border: Border.all(color: Colors.teal)),
                     child:
                         PageView(controller: pageController, children: <Widget>[
-                      listOfImage(context, 'assets/images/logo.png', ''),
+                      // listOfImage(context, 'assets/images/logo.png', ''),
                       listOfImage(context, 'assets/images/wasted_food.jpg',
                           'Mỗi năm, có khoảng 1,3 tỷ tấn thức ăn bị lãng phí trên toàn thế giới.'),
                       listOfImage(context, 'assets/images/wasted_food1.jpg',
@@ -151,8 +151,33 @@ class _LoginPageState extends State<LoginPage> {
                           padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.popAndPushNamed(
-                                  context, RouteName.homePage);
+                              if (phoneEditingController.text == '1234567890' &&
+                                  pwdEditingController.text == 'volunteer') {
+                                Navigator.popAndPushNamed(
+                                    context, RouteName.homePage);
+                              } else if (phoneEditingController.text ==
+                                      '0987654321' &&
+                                  pwdEditingController.text == 'restaurant') {
+                                Navigator.popAndPushNamed(
+                                    context, RouteName.homePageForRestaurant);
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        content: Container(
+                                          height: 100,
+                                          child: Column(
+                                            children: <Widget>[
+                                              Icon(Icons.warning, color: Colors.orange, size: 40,),
+                                              Text(
+                                                  'Sai mật khẩu hoặc số điện thoại'),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              }
                             },
                             child: Container(
                               height: 50,
